@@ -1,0 +1,36 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+canvas {
+  display: block;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+.button {
+  background-color: Transparent;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  margin: 30;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  position: relative;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  top: 300px; */
+  /*bottom: 0px;*/
+  z-index: 10;
+}
+.button:hover {
+  background-color: slategrey; /* Green */
+  color: white;
+}
+
+.clicker {
+  background-color: Transparent;
+  border: none;
+}
