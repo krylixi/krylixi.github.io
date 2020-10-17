@@ -49,6 +49,7 @@
 
 				scene = new THREE.Scene();
 				scene.background = new THREE.Color( 0xf0f0f0 );
+				// #1f2c5c
 
 				var light = new THREE.DirectionalLight( 0xffffff, 1 );
 				light.position.set( 1, 1, 1 ).normalize();
@@ -80,6 +81,34 @@
 				mesh.name = 'kofi';
 				scene.add( mesh );
 
+
+				var tiktex = new THREE.TextureLoader().load( 'tok.png' );
+				var tikmat = new THREE.MeshLambertMaterial( { map: tiktex, emissiveMap: tiktex , emissive: 0x999999} );
+
+
+				var mesh = new THREE.Mesh( geometry, tikmat );
+				mesh.position.y = -20;
+				mesh.position.z = -20;
+				mesh.rotation.x = Math.random() * 2 * Math.PI;
+				// mesh.rotation.y = Math.random() * 2 * Math.PI;
+				mesh.rotation.z = Math.random() * 2 * Math.PI;
+				mesh.name = 'tik';
+				scene.add( mesh );
+
+
+				var tubetex = new THREE.TextureLoader().load( 'tube.jpg' );
+				var tubemat = new THREE.MeshLambertMaterial( { map: tubetex, emissiveMap: tubetex , emissive: 0x999999} );
+
+
+				var mesh = new THREE.Mesh( geometry, tubemat );
+				mesh.position.y = 30;
+				mesh.position.z = 0;
+				mesh.rotation.x = Math.random() * 2 * Math.PI;
+				// mesh.rotation.y = Math.random() * 2 * Math.PI;
+				mesh.rotation.z = Math.random() * 2 * Math.PI;
+				mesh.name = 'tube';
+				scene.add( mesh );
+
 				for ( var i = 0; i < 2000; i ++ ) {
 
 					// var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
@@ -99,7 +128,9 @@
 					object.scale.y = Math.random() + 0.5;
 					object.scale.z = Math.random() + 0.5;
 
-					scene.add( object );
+					if (Math.abs(object.position.x) > 30 && Math.abs(object.position.y) > 30) {
+						scene.add( object );
+					}
 
 				}
 
@@ -185,6 +216,12 @@
 					else if (INTERSECTED == scene.getObjectByName( "kofi" )) {
 						linkActive = 2;
 					}
+					else if (INTERSECTED == scene.getObjectByName( "tik" )) {
+						linkActive = 3;
+					}
+					else if (INTERSECTED == scene.getObjectByName( "tube" )) {
+						linkActive = 4;
+					}
 					else {
 						linkActive = 0;
 					}
@@ -208,6 +245,12 @@
 						break;
 					case 2:
 						window.open("https://ko-fi.com/twelvescomplement");
+						break;
+					case 3:
+						window.open("https://www.tiktok.com/@twelves.complement");
+						break;
+					case 4:
+						window.open("https://www.youtube.com/channel/UCyBCG5hSyig7QNwRPnkyURw");
 						break;
 				}
 			}
