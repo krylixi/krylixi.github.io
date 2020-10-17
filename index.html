@@ -35,7 +35,7 @@
 			var mouse = new THREE.Vector2(), INTERSECTED;
 			var radius = 100, theta = 0;
 
-			
+
 			var rand1 = Math.round(Math.random())*2 -1;
 			var rand2 = Math.round(Math.random())*2 -1;
 			var rand3 = Math.round(Math.random())*2 -1;
@@ -191,7 +191,7 @@
 
 			function render() {
 
-				theta += 0.1;
+				theta += 0.07;
 
 				camera.position.x = radius * Math.sin( THREE.MathUtils.degToRad( theta ) )*rand1;
 				camera.position.y = radius * Math.sin( THREE.MathUtils.degToRad( theta ) )*rand2;
