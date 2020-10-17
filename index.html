@@ -35,6 +35,11 @@
 			var mouse = new THREE.Vector2(), INTERSECTED;
 			var radius = 100, theta = 0;
 
+			
+			var rand1 = Math.round(Math.random())*2 -1;
+			var rand2 = Math.round(Math.random())*2 -1;
+			var rand3 = Math.round(Math.random())*2 -1;
+
 			init();
 			animate();
 
@@ -150,6 +155,9 @@
 
 				window.addEventListener( 'resize', onWindowResize, false );
 
+
+
+
 			}
 
 			function onWindowResize() {
@@ -185,9 +193,9 @@
 
 				theta += 0.1;
 
-				camera.position.x = radius * Math.sin( THREE.MathUtils.degToRad( theta ) );
-				camera.position.y = radius * Math.sin( THREE.MathUtils.degToRad( theta ) );
-				camera.position.z = radius * Math.cos( THREE.MathUtils.degToRad( theta ) );
+				camera.position.x = radius * Math.sin( THREE.MathUtils.degToRad( theta ) )*rand1;
+				camera.position.y = radius * Math.sin( THREE.MathUtils.degToRad( theta ) )*rand2;
+				camera.position.z = radius * Math.cos( THREE.MathUtils.degToRad( theta ) )*rand3;
 				camera.lookAt( scene.position );
 
 				camera.updateMatrixWorld();
