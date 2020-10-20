@@ -67,6 +67,7 @@
 
 				var mesh = new THREE.Mesh( geometry, instamat );
 				mesh.position.x = 20;
+				mesh.position.z = 10;
 				mesh.rotation.x = Math.random() * 2 * Math.PI;
 				// mesh.rotation.y = Math.random() * 2 * Math.PI;
 				mesh.rotation.z = Math.random() * 2 * Math.PI;
@@ -80,6 +81,7 @@
 
 				var mesh = new THREE.Mesh( geometry, kofimat );
 				mesh.position.x = -20;
+				mesh.position.z = 10;
 				mesh.rotation.x = Math.random() * 2 * Math.PI;
 				// mesh.rotation.y = Math.random() * 2 * Math.PI;
 				mesh.rotation.z = Math.random() * 2 * Math.PI;
@@ -93,7 +95,7 @@
 
 				var mesh = new THREE.Mesh( geometry, tikmat );
 				mesh.position.y = -20;
-				mesh.position.z = -20;
+				mesh.position.z = -10;
 				mesh.rotation.x = Math.random() * 2 * Math.PI;
 				// mesh.rotation.y = Math.random() * 2 * Math.PI;
 				mesh.rotation.z = Math.random() * 2 * Math.PI;
@@ -107,11 +109,26 @@
 
 				var mesh = new THREE.Mesh( geometry, tubemat );
 				mesh.position.y = 30;
-				mesh.position.z = 0;
+				mesh.position.z = 10;
 				mesh.rotation.x = Math.random() * 2 * Math.PI;
 				// mesh.rotation.y = Math.random() * 2 * Math.PI;
 				mesh.rotation.z = Math.random() * 2 * Math.PI;
 				mesh.name = 'tube';
+				scene.add( mesh );
+
+
+				var teltex = new THREE.TextureLoader().load( 'tello.jpg' );
+				var telmat = new THREE.MeshLambertMaterial( { map: teltex, emissiveMap: teltex , emissive: 0x999999} );
+
+
+				var mesh = new THREE.Mesh( geometry, telmat );
+				mesh.position.y = 15;
+				mesh.position.z = -35;
+				mesh.position.x = 0;
+				mesh.rotation.x = Math.random() * 2 * Math.PI;
+				// mesh.rotation.y = Math.random() * 2 * Math.PI;
+				mesh.rotation.z = Math.random() * 2 * Math.PI;
+				mesh.name = 'tel';
 				scene.add( mesh );
 
 				for ( var i = 0; i < 2000; i ++ ) {
@@ -230,6 +247,9 @@
 					else if (INTERSECTED == scene.getObjectByName( "tube" )) {
 						linkActive = 4;
 					}
+					else if (INTERSECTED == scene.getObjectByName( "tel" )) {
+						linkActive = 5;
+					}
 					else {
 						linkActive = 0;
 					}
@@ -259,6 +279,9 @@
 						break;
 					case 4:
 						window.open("https://www.youtube.com/channel/UCyBCG5hSyig7QNwRPnkyURw");
+						break;
+					case 5:
+						window.open("https://tellonym.me/twelves.complement");
 						break;
 				}
 			}
