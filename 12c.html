@@ -103,7 +103,7 @@
 				scene.add( mesh );
 
 
-				var tubetex = new THREE.TextureLoader().load( 'tube.jpg' );
+				var tubetex = new THREE.TextureLoader().load( 'disc.png' );
 				var tubemat = new THREE.MeshLambertMaterial( { map: tubetex, emissiveMap: tubetex , emissive: 0x999999} );
 
 
@@ -113,7 +113,7 @@
 				mesh.rotation.x = Math.random() * 2 * Math.PI;
 				// mesh.rotation.y = Math.random() * 2 * Math.PI;
 				mesh.rotation.z = Math.random() * 2 * Math.PI;
-				mesh.name = 'tube';
+				mesh.name = 'disc';
 				scene.add( mesh );
 
 
@@ -244,7 +244,7 @@
 					else if (INTERSECTED == scene.getObjectByName( "tik" )) {
 						linkActive = 3;
 					}
-					else if (INTERSECTED == scene.getObjectByName( "tube" )) {
+					else if (INTERSECTED == scene.getObjectByName( "disc" )) {
 						linkActive = 4;
 					}
 					else if (INTERSECTED == scene.getObjectByName( "tel" )) {
@@ -278,7 +278,7 @@
 						window.open("https://www.tiktok.com/@twelves.complement");
 						break;
 					case 4:
-						window.open("https://www.youtube.com/channel/UCyBCG5hSyig7QNwRPnkyURw");
+						window.open("https://discord.gg/r22hdz2qnx");
 						break;
 					case 5:
 						window.open("https://tellonym.me/twelves.complement");
