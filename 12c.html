@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>linktree but cooler</title>
+		<title>caard but cooler</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<link type="text/css" rel="stylesheet" href="main.css">
@@ -117,7 +117,7 @@
 				scene.add( mesh );
 
 
-				var teltex = new THREE.TextureLoader().load( 'tello.jpg' );
+				var teltex = new THREE.TextureLoader().load( 'ngl.png' );
 				var telmat = new THREE.MeshLambertMaterial( { map: teltex, emissiveMap: teltex , emissive: 0x999999} );
 
 
@@ -247,7 +247,7 @@
 					else if (INTERSECTED == scene.getObjectByName( "tube" )) {
 						linkActive = 4;
 					}
-					else if (INTERSECTED == scene.getObjectByName( "tel" )) {
+					else if (INTERSECTED == scene.getObjectByName( "ngl" )) {
 						linkActive = 5;
 					}
 					else {
@@ -272,17 +272,17 @@
 						window.open("https://www.instagram.com/sonic.the.hedge.fund/");
 						break;
 					case 2:
-						window.open("https://ko-fi.com/twelvescomplement");
+						window.open("https://ko-fi.com/sonicthehedgefund");
 						break;
 					case 3:
-						window.open("https://www.tiktok.com/@twelves.complement");
+						window.open("https://www.tiktok.com/@sonic.the.hedge.fund");
 						break;
 					case 4:
 						// window.open("https://discord.gg/r22hdz2qnx");
 						window.open("https://www.youtube.com/watch?v=5K0V2t8lN0s");
 						break;
 					case 5:
-						window.open("https://tellonym.me/twelves.complement");
+						window.open("https://ngl.link/sonic.the.hedge.fund");
 						break;
 				}
 			}
