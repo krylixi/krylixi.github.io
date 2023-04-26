@@ -41,6 +41,15 @@ canvas {
 	z-index: 1; /* TODO Solve this in HTML */
 }
 
+#back {
+	position: absolute;
+	top: 10px;
+	width: 100%;
+	text-align: center;
+	z-index: 100;
+	display:block;
+}
+
 a, button, input, select {
 	pointer-events: auto;
 }
@@ -82,4 +91,3 @@ a, button, input, select {
 	margin-top: 20px;
 	padding: 10px;
 }
-

@@ -17,13 +17,27 @@
 	</head>
 	<body>
 
-<!-- 		<div id="info">
-			<a href="https://threejs.org" target="_blank" rel="noopener"></a>
-		</div> -->
+		<div id="info">
+			<a href="https://threejs.org" target="_blank" rel="noopener">MODIFIED FROM A THREE.JS DEMO</a>
+			<a href="https://www.instagram.com/sonic.the.hedge.fund" target="_blank" rel="noopener">BY SONICTHEHEDGEFUND</a>
+		</div>
+
+		<script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+
+		<script type="importmap">
+		  {
+		    "imports": {
+		      "three": "https://unpkg.com/three@0.151.3/build/three.module.js",
+		      "three/addons/": "https://unpkg.com/three@0.151.3/examples/jsm/"
+		    }
+		  }
+		</script>
 
 		<script type="module">
 
-			import * as THREE from 'https://unpkg.com/three@0.121.1/build/three.module.js';
+			import * as THREE from 'three';
+			import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+			import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 
 			// import Stats from 'https://unpkg.com/three@0.121.1/jsm/libs/stats.module.js';
 
@@ -43,8 +57,21 @@
 			init();
 			animate();
 
-			function init() {
+			// const canvas = document.createElement('canvas');
+			// const context = canvas.getContext('2d');
+			// context.fillStyle = 'green';
+			// context.font = '60px sans-serif';
+			// context.fillText('Hello World!', 0, 60);
+			// const texture = new THREE.Texture(canvas);
+			// texture.needsUpdate = true;
+			// var material = new THREE.MeshBasicMaterial({
+			//    map: texture,
+			//    side: THREE.DoubleSide,
+			// });
+			// material.transparent = true;
+			// var mesh = new THREE.Mesh(new THREE.PlaneGeometry(50, 10), material);
 
+			function init() {
 				container = document.createElement( 'div' );
 				document.body.appendChild( container );
 
@@ -53,12 +80,40 @@
 				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
 
 				scene = new THREE.Scene();
-				scene.background = new THREE.Color( 0xf0f0f0 );
+				scene.background = new THREE.Color( 0xf5f5f5 );
 				// #1f2c5c
 
 				var light = new THREE.DirectionalLight( 0xffffff, 1 );
 				light.position.set( 1, 1, 1 ).normalize();
 				scene.add( light );
+				var light2 = new THREE.DirectionalLight( 0xbbbbbb, 1 );
+				light2.position.set( -1, -1, -1 ).normalize();
+				scene.add( light2 );
+
+				const loader = new FontLoader();
+
+				loader.load( 'https://threejs.org/examples/fonts/helvetiker_bold.typeface.json', function ( font ) {
+
+				    const textGeo = new TextGeometry( "@sonicthehedgefund", {
+
+				        font: font,
+
+				        size: 10,
+				        height: 1,
+				        curveSegments: 12,
+
+				        bevelEnabled: false
+
+				    } );
+
+				    const textMaterial = new THREE.MeshPhongMaterial( { color: 0xff0000 } );
+
+				    const textmesh = new THREE.Mesh( textGeo, textMaterial );
+
+					camera.add(textmesh);
+					textmesh.position.set(-80,0,-200);
+					scene.add(camera);
+				} );
 
 				var geometry = new THREE.BoxBufferGeometry( 20, 20, 20 );
 
@@ -103,7 +158,7 @@
 				scene.add( mesh );
 
 
-				var tubetex = new THREE.TextureLoader().load( 'tube.png' );
+				var tubetex = new THREE.TextureLoader().load( 'tube.jpg' );
 				var tubemat = new THREE.MeshLambertMaterial( { map: tubetex, emissiveMap: tubetex , emissive: 0x999999} );
 
 
@@ -171,9 +226,6 @@
 				//
 
 				window.addEventListener( 'resize', onWindowResize, false );
-
-
-
 
 			}
 
