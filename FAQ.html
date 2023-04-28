@@ -24,6 +24,9 @@
 		    }
 		  }
 		</script>
+		<div id="overlay">
+			<button id="startButton">Start Demo</button>
+		</div>
 		<script type="module">
 
 			import * as THREE from 'three';
@@ -45,6 +48,13 @@
 			animate();
 
 			function init() {
+				if (!isPhone) {
+					const overlay = document.getElementById( 'overlay' );
+					overlay.remove();
+				} else {
+					const startButton = document.getElementById( 'startButton' );
+					startButton.addEventListener( 'click', getPerms());
+				}
 
 				container = document.createElement( 'div' );
 				document.body.appendChild( container );
@@ -127,7 +137,7 @@
 				requestAnimationFrame( animate );
 				
 				if (isPhone){
-			    	controls.update();
+			    	// controls.update();
 				} else {
 					const euler = new THREE.Euler(0, 0, 0, 'YXZ');
 				    euler.x = -mouseY;
@@ -240,7 +250,7 @@
 				} );
 
 			}
-			function onClick() {
+			function getPerms() {
 			    // feature detect
 			    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
 			      DeviceOrientationEvent.requestPermission()
@@ -253,6 +263,8 @@
 			    } else {
 			      // handle regular non iOS 13+ devices
 			    }
+				const overlay = document.getElementById( 'overlay' );
+				overlay.remove();
 			  }
 
 		</script>
