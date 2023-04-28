@@ -65,7 +65,7 @@
 				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
 
 				scene = new THREE.Scene();
-				scene.background = new THREE.Color( 0xf5f5f5 );
+				scene.background = new THREE.Color( 0xe0e0e0 );
 				// #1f2c5c
 
 				var light = new THREE.DirectionalLight( 0xffffff, 1 );
@@ -146,16 +146,29 @@
 				mesh.name = 'tel';
 				scene.add( mesh );
 
-				for ( var i = 0; i < 2000; i ++ ) {
+
+				var FAQtex = new THREE.TextureLoader().load( 'info.jpg' );
+				var FAQmat = new THREE.MeshLambertMaterial( { map: FAQtex, emissiveMap: FAQtex , emissive: 0x999999} );
+				var mesh = new THREE.Mesh( geometry, FAQmat );
+				mesh.position.y = 30;
+				mesh.position.z = -10;
+				mesh.position.x = 25;
+				mesh.rotation.x = Math.random() * 2 * Math.PI;
+				// mesh.rotation.y = Math.random() * 2 * Math.PI;
+				mesh.rotation.z = Math.random() * 2 * Math.PI;
+				mesh.name = 'FAQ';
+				scene.add( mesh );
+
+				for ( var i = 0; i < 3000; i ++ ) {
 
 					// var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
 
 					var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xffffff } ) );
 
 
-					object.position.x = Math.random() * 800 - 400;
-					object.position.y = Math.random() * 800 - 400;
-					object.position.z = Math.random() * 800 - 400;
+					object.position.x = Math.random() * 1000 - 500;
+					object.position.y = Math.random() * 1000 - 500;
+					object.position.z = Math.random() * 1000 - 500;
 
 					object.rotation.x = Math.random() * 2 * Math.PI;
 					object.rotation.y = Math.random() * 2 * Math.PI;
@@ -165,7 +178,7 @@
 					object.scale.y = Math.random() + 0.5;
 					object.scale.z = Math.random() + 0.5;
 
-					if (Math.abs(object.position.x) > 30 && Math.abs(object.position.y) > 30) {
+					if (object.position.distanceTo(scene.position) > 100) {
 						scene.add( object );
 					}
 
@@ -262,6 +275,9 @@
 					else if (INTERSECTED == scene.getObjectByName( "ngl" )) {
 						linkActive = 5;
 					}
+					else if (INTERSECTED == scene.getObjectByName( "FAQ" )) {
+						linkActive = 6;
+					}
 					else {
 						linkActive = 0;
 					}
@@ -295,6 +311,9 @@
 						break;
 					case 5:
 						window.open("https://ngl.link/sonic.the.hedge.fund");
+						break;
+					case 6:
+						window.open(window.location.href+"/FAQ");
 						break;
 				}
 			}

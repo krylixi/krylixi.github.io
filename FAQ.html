@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>caard but cooler</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link type="text/css" rel="stylesheet" href="main.css">
+		<style>
+			body {
+				background-color: #f0f0f0;
+				color: #444;
+			}
+			a {
+				color: #08f;
+			}
+		</style>
+	</head>
+	<body>
+		<script type="importmap">
+		  {
+		    "imports": {
+		      "three": "https://unpkg.com/three@0.125.2/build/three.module.js",
+		      "three/addons/": "https://unpkg.com/three@0.151.3/examples/jsm/"
+		    }
+		  }
+		</script>
+		<script type="module">
+
+			import * as THREE from 'three';
+			import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+			import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+			import { DeviceOrientationControls } from 'https://unpkg.com/three@0.125.2/examples/jsm/controls/DeviceOrientationControls.js';
+
+			var container, stats;
+			var camera, scene, loader, renderer, controls;
+			var light1, light2, light3;
+			const isPhone = (window.orientation != undefined);
+
+			let mouseX = 0;
+			let mouseY = 0;
+			let windowHalfX = window.innerWidth / 2;
+			let windowHalfY = window.innerHeight / 2;
+
+			init();
+			animate();
+
+			function init() {
+
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+				container.addEventListener('click', onclick , false);
+
+				scene = new THREE.Scene();
+				scene.background = new THREE.Color( 0xf0f0f0 );
+				// #1f2c5c
+
+				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
+				// camera.position.set(0,0,0);
+				// camera.lookAt(scene.position);
+
+				if (isPhone){
+					controls = new DeviceOrientationControls( camera );
+				}
+
+
+
+				// light1 = new THREE.DirectionalLight( 0xff0000, 1 );
+				// light1.position.set( 1, 1, 1 ).normalize();
+				// scene.add( light1 );
+				// light2 = new THREE.DirectionalLight( 0x00ffff, 1 );
+				// light2.position.set( 1, 1, 1 ).normalize();
+				// scene.add( light2 );
+				// light3 = new THREE.DirectionalLight( 0xff9999, 1 );
+				// light3.position.set( 1, 1, 1 ).normalize();
+				// scene.add( light3 );
+
+				light1 = new THREE.DirectionalLight( 0xffffff, 1 );
+				light1.position.set( 1, 1, 1 ).normalize();
+				scene.add( light1 );
+				light2 = new THREE.DirectionalLight( 0xffffff, 1 );
+				light2.position.set( -1, -1, 1 ).normalize();
+				scene.add( light2 );
+
+				loader = new FontLoader();
+
+				ohGodWhyDidIHardCodeThis();
+
+				renderer = new THREE.WebGLRenderer();
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				container.appendChild( renderer.domElement );
+
+				// stats = new Stats();
+				// container.appendChild( stats.dom );
+
+				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+
+				//
+
+				window.addEventListener( 'resize', onWindowResize, false );
+			}
+
+			function onDocumentTouchEnd(event) {
+			    event.preventDefault();
+			    console.log("hmm");
+				const euler = new THREE.Euler(0, 0, 0, 'YXZ');
+			    euler.x = -mouseY;
+			    euler.y = -mouseX;
+
+			    const quaternion = new THREE.Quaternion(0, 0, 0, 'YXZ');
+			    quaternion.x = -mouseY;
+			    quaternion.y = -mouseX;
+			    camera.applyQuaternion(quaternion);
+			    camera.normalize();
+
+			    // camera.rotation.x = Math.min(Math.max(camera.rotation.x, -1.0472), 1.0472);
+			}
+
+
+			function onWindowResize() {
+
+				windowHalfX = window.innerWidth / 2;
+				windowHalfY = window.innerHeight / 2;
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				effect.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+
+			function onDocumentMouseMove( event ) {
+
+				mouseX = ( event.clientX - windowHalfX ) / 500;
+				mouseY = ( event.clientY - windowHalfY ) / 500;
+
+			}
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+				
+				if (isPhone){
+			    	controls.update();
+				} else {
+					const euler = new THREE.Euler(0, 0, 0, 'YXZ');
+				    euler.x = -mouseY;
+				    euler.y = -mouseX;
+				    camera.quaternion.setFromEuler(euler);
+
+				    camera.rotation.x = Math.min(Math.max(camera.rotation.x, -1.0472), 1.0472);
+				}
+
+				renderer.render( scene, camera );
+				// stats.update();
+
+			}
+
+			function ohGodWhyDidIHardCodeThis() {
+
+				loader.load( 'https://threejs.org/examples/fonts/helvetiker_bold.typeface.json', function ( font ) {
+				    const textMaterial = new THREE.MeshPhongMaterial( { color: 0x303030 } );
+				    const qMaterial = new THREE.MeshPhongMaterial( { color: 0xff0000 } );
+
+				    let positionArray =
+				    [-100,-100,-300,
+				    	100, -150, -200,
+				    	-200,-50,-100,
+				    	100,100,-300,
+				    	-160,50,-150,
+				    	200,-80, -200,
+				    	-80, 210, -400,
+				    	310, 60, -350,
+				    	-380, 160, 20,
+				    	0,500,-100
+				    	];
+				    let qArray =
+				    ["Where are the tights from?",
+				    	"Which NFC tags did you buy?",
+				    	"Do you have an OnlyFans?",
+				    	"How did you make this site?",
+				    	"Are you single?",
+				    	"Can you sew me a _insert thing here_?",
+				    	"Where do I buy a sound-reactive skirt?",
+				    	"Why does this page sound so rude?",
+				    	"Where can I buy the fairy dress fabric?",
+				    	"hehehe"
+				    	];
+				    let aArray =
+				    ["Shein, search for \"garter tights\" ",
+				    	"They're not listed anymore, just search for \"NFC tag\"",
+				    	"No",
+				    	"The repo is public, it's pretty self-explanatory.\nFeel free to DM with code questions but\nI probably can't help you debug",
+				    	"I'm sure you're great, but I'm \nprobably not interested",
+				    	"I don't take commissions often because my \nsewing quality is ass and my materials \nare expensive. If that's cool with you and you \ncan afford it up front, DM me",
+				    	"Buy a sound-reactive LED strip and glue it onto a skirt",
+				    	"i made the font too big so im being brief smodge",
+				    	"I used miafabrics, but searching \"4-way stretch \nmesh sequin fabric will get you a ton of\noptions\"",
+				    	"hello there\nGENERAL KENOBI"
+				    	];
+
+				    for (var i = 0; i < aArray.length; i++) {
+
+				    	let aGeo = new TextGeometry( aArray[i], {
+
+					        font: font,
+
+					        size: 9,
+					        height: 1,
+					        curveSegments: 12,
+
+					        bevelEnabled: false
+
+					    } );
+				    	aGeo.center();
+					    let amesh = new THREE.Mesh( aGeo, textMaterial );
+				    	let qGeo = new TextGeometry( qArray[i], {
+
+					        font: font,
+
+					        size: 15,
+					        height: 1,
+					        curveSegments: 12,
+
+					        bevelEnabled: false
+
+					    } );
+				    	qGeo.center();
+					    let qmesh = new THREE.Mesh( qGeo, qMaterial );
+					    qmesh.position.set(0,(aGeo.boundingBox.max.y-aGeo.boundingBox.min.y)/2+10,0);
+						amesh.add(qmesh);
+						
+						amesh.position.set(positionArray[3*i], positionArray[3*i + 1], positionArray[3*i + 2]);
+						amesh.lookAt(camera.position);
+						scene.add(amesh);
+				    }
+
+
+				    let textGeo1 = new TextGeometry( "Frequently Asked Questions", {
+
+				        font: font,
+
+				        size: 20,
+				        height: 1,
+				        curveSegments: 12,
+
+				        bevelEnabled: false
+
+				    } );
+				    textGeo1.center();
+				    let textmesh1 = new THREE.Mesh( textGeo1, textMaterial );
+					textmesh1.position.set(0,0,-200);
+					scene.add(textmesh1);
+				} );
+
+			}
+
+		</script>
+	</body>
+</html>
