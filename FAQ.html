@@ -53,13 +53,13 @@
 					overlay.remove();
 				} else {
 					const startButton = document.getElementById( 'startButton' );
-					startButton.addEventListener( 'click', getPerms());
+					startButton.addEventListener( 'click', function(){
+   						getPerms()
+					});
 				}
 
 				container = document.createElement( 'div' );
 				document.body.appendChild( container );
-
-				container.addEventListener('click', onclick , false);
 
 				scene = new THREE.Scene();
 				scene.background = new THREE.Color( 0xf0f0f0 );
