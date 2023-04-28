@@ -45,19 +45,20 @@
 			let windowHalfX = window.innerWidth / 2;
 			let windowHalfY = window.innerHeight / 2;
 
-			init();
-			animate();
+
+			if (!isPhone) {
+				const overlay = document.getElementById( 'overlay' );
+				overlay.remove();
+				init();
+				animate();
+			} else {
+				const startButton = document.getElementById( 'startButton' );
+				startButton.addEventListener( 'click', function(){
+						getPerms()
+				});
+			}
 
 			function init() {
-				if (!isPhone) {
-					const overlay = document.getElementById( 'overlay' );
-					overlay.remove();
-				} else {
-					const startButton = document.getElementById( 'startButton' );
-					startButton.addEventListener( 'click', function(){
-   						getPerms()
-					});
-				}
 
 				container = document.createElement( 'div' );
 				document.body.appendChild( container );
@@ -192,7 +193,7 @@
 				    	"I don't take commissions often because my \nsewing quality is ass and my materials \nare expensive. If that's cool with you and you \ncan afford it up front, DM me",
 				    	"Buy a sound-reactive LED strip and glue it onto a skirt",
 				    	"i made the font too big so im being brief smodge",
-				    	"I used miafabrics, but searching \"4-way stretch \nmesh sequin fabric will get you a ton of\noptions\"",
+				    	"I used miafabrics, but searching \"4-way stretch \nmesh sequin fabric\" will get you a ton of\noptions",
 				    	"hello there\nGENERAL KENOBI"
 				    	];
 
@@ -267,6 +268,9 @@
 			    }
 				const overlay = document.getElementById( 'overlay' );
 				overlay.remove();
+				
+				init();
+				animate();
 			  }
 
 		</script>
