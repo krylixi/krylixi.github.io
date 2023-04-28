@@ -25,7 +25,7 @@
 		  }
 		</script>
 		<div id="overlay">
-			<button id="startButton">Start Demo</button>
+			<button id="startButton">Start</button>
 		</div>
 		<script type="module">
 
@@ -137,7 +137,7 @@
 				requestAnimationFrame( animate );
 				
 				if (isPhone){
-			    	// controls.update();
+			    	controls.update();
 				} else {
 					const euler = new THREE.Euler(0, 0, 0, 'YXZ');
 				    euler.x = -mouseY;
