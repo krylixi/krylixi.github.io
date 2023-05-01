@@ -149,7 +149,7 @@
 
 				var FAQtex = new THREE.TextureLoader().load( 'info.jpg' );
 				var FAQmat = new THREE.MeshLambertMaterial( { map: FAQtex, emissiveMap: FAQtex , emissive: 0x999999} );
-				var mesh = new THREE.Mesh( geometry, FAQmat );
+				var mesh = new THREE.Mesh( new THREE.BoxBufferGeometry( 10,10,10 ), FAQmat );
 				mesh.position.y = 30;
 				mesh.position.z = -10;
 				mesh.position.x = 25;

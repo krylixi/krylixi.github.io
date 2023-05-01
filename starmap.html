@@ -7,7 +7,7 @@
 		<link type="text/css" rel="stylesheet" href="main.css">
 		<style>
 			body {
-				background-color: #f0f0f0;
+				background-color: #000000;
 				color: #444;
 			}
 			a {
@@ -37,6 +37,7 @@
 			import * as THREE from 'three';
 			import { DeviceOrientationControls } from 'https://unpkg.com/three@0.125.2/examples/jsm/controls/DeviceOrientationControls.js';
 
+			var mousedownID = -1;
 			var container, stats;
 			var camera, scene, renderer, controls, raycaster, txt;
 			var light1, light2, light3;
@@ -70,10 +71,12 @@
 				document.body.appendChild( container );
 
 				scene = new THREE.Scene();
-				scene.background = new THREE.Color( 0xf0f0f0 );
+				scene.background = new THREE.Color( 0x000000 );
 				// #1f2c5c
 
 				raycaster = new THREE.Raycaster();
+
+				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
 
 				const backgeometry = new THREE.SphereBufferGeometry( 500, 60, 40 );
 				// invert the geometry on the x-axis so that all of the faces point inward
@@ -81,25 +84,21 @@
 				const backmaterial = new THREE.MeshBasicMaterial( {
 					map: new THREE.TextureLoader().load( 'textures/starmap_2020_4k.png' )
 				} );
-				const backmesh = new THREE.Mesh( backgeometry, backmaterial );
+				var backmesh = new THREE.Mesh( backgeometry, backmaterial );
 				backmesh.rotation.z = 45;
-				scene.add( backmesh );
 				// setUpSkybox();
 
-				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
-				// camera.rotation.y = 45;
-				// scene.add(camera);
-				// camera.position.set(0,0,0);
-				// camera.lookAt(scene.position);
+				camera.add(backmesh);
+				const light = new THREE.PointLight( 0xffffff, 1);
+				light.position.set( 0, 50, 0 );
+				camera.add( light );
+
+				scene.add(camera);
 
 				if (isPhone){
 					controls = new DeviceOrientationControls( camera );
 				}
 
-
-				const light = new THREE.PointLight( 0xffffff, 1);
-				light.position.set( 50, 50, 50 );
-				scene.add( light );
 
 				ohGodWhyDidIHardCodeThis();
 
@@ -109,6 +108,15 @@
 				container.appendChild( renderer.domElement );
 
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+				document.addEventListener("mouseup", onDocumentMouseUp);
+				//Also clear the interval when user leaves the window with mouse
+				document.addEventListener("mouseout", onDocumentMouseUp);
+
+				document.addEventListener("touchstart", onDocumentMouseDown);
+				document.addEventListener("touchend", onDocumentMouseUp);
+				document.addEventListener("touchmove", function(){});
+				document.addEventListener("touchcancel", onDocumentMouseUp);
 
 				window.addEventListener( 'resize', onWindowResize, false );
 			}
@@ -143,12 +151,34 @@
 
 
 			function onDocumentMouseMove( event ) {
-
 				event.preventDefault();
 
-				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+				if (!isPhone) {
+					mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+					mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+				}
+				
+			}
 
+
+			function onDocumentMouseDown( event ) {
+				event.preventDefault();
+
+				if(mousedownID==-1) {
+     				mousedownID = setInterval(whilemousedown, 10 /*execute every 100ms*/);
+				}
+				
+			}
+			function onDocumentMouseUp(event) {
+				event.preventDefault();
+			   if(mousedownID!=-1) {  //Only stop if exists
+			     clearInterval(mousedownID);
+			     mousedownID=-1;
+			   }
+
+			}
+			function whilemousedown() {
+				camera.position.add( camera.getWorldDirection().divideScalar(5) );
 			}
 
 			function animate() {
@@ -156,7 +186,7 @@
 				requestAnimationFrame( animate );
 				
 				if (isPhone){
-			    	controls.update();
+			    	// controls.update();
 				} else {
 					const euler = new THREE.Euler(0, 0, 0, 'YXZ');
 				    euler.x = mouse.y*2;
