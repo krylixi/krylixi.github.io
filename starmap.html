@@ -39,7 +39,7 @@
 
 			var mousedownID = -1;
 			var container, stats;
-			var camera, scene, renderer, controls, raycaster, txt;
+			var camera, scene, renderer, controls, raycaster, txt, backmesh;
 			var light1, light2, light3;
 			var planets = [];
 			const isPhone = (window.orientation != undefined);
@@ -84,11 +84,11 @@
 				const backmaterial = new THREE.MeshBasicMaterial( {
 					map: new THREE.TextureLoader().load( 'textures/starmap_2020_4k.png' )
 				} );
-				var backmesh = new THREE.Mesh( backgeometry, backmaterial );
+				backmesh = new THREE.Mesh( backgeometry, backmaterial );
 				backmesh.rotation.z = 45;
 				// setUpSkybox();
 
-				camera.add(backmesh);
+				scene.add(backmesh);
 				const light = new THREE.PointLight( 0xffffff, 1);
 				light.position.set( 0, 50, 0 );
 				camera.add( light );
@@ -184,6 +184,9 @@
 			function animate() {
 
 				requestAnimationFrame( animate );
+				console.log(camera.position);
+				console.log(backmesh.position);
+				backmesh.position.set(camera.position.x, camera.position.y, camera.position.z);
 				
 				if (isPhone){
 			    	controls.update();
