@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>caard but cooler</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link type="text/css" rel="stylesheet" href="main.css">
+		<style>
+			body {
+				background-color: #f0f0f0;
+				color: #444;
+			}
+			a {
+				color: #08f;
+			}
+		</style>
+	</head>
+	<body>
+
+		<div id="desc">
+		</div>
+
+		<script async src="https://ga.jspm.io/npm:es-module-shims@1.5.17/dist/es-module-shims.js"></script>
+		<script type="importmap">
+		  {
+		    "imports": {
+		      "three": "https://unpkg.com/three@0.125.2/build/three.module.js",
+		      "three/addons/": "https://unpkg.com/three@0.151.3/examples/jsm/"
+		    }
+		  }
+		</script>
+		<div id="overlay">
+			<button id="startButton">Start</button>
+		</div>
+		<script type="module">
+
+			import * as THREE from 'three';
+			import { DeviceOrientationControls } from 'https://unpkg.com/three@0.125.2/examples/jsm/controls/DeviceOrientationControls.js';
+
+			var container, stats;
+			var camera, scene, renderer, controls, raycaster, txt;
+			var light1, light2, light3;
+			var planets = [];
+			const isPhone = (window.orientation != undefined);
+
+			let windowHalfX = window.innerWidth / 2;
+			let windowHalfY = window.innerHeight / 2;
+
+
+			var mouse = new THREE.Vector2(), INTERSECTED;
+			var radius = 100, theta = 0;
+			txt = document.getElementById( 'desc' );
+
+
+			if (!isPhone) {
+				const overlay = document.getElementById( 'overlay' );
+				overlay.remove();
+				init();
+				animate();
+			} else {
+				const startButton = document.getElementById( 'startButton' );
+				startButton.addEventListener( 'click', function(){
+						getPerms()
+				});
+			}
+
+			function init() {
+
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+				scene = new THREE.Scene();
+				scene.background = new THREE.Color( 0xf0f0f0 );
+				// #1f2c5c
+
+				raycaster = new THREE.Raycaster();
+
+				const backgeometry = new THREE.SphereBufferGeometry( 500, 60, 40 );
+				// invert the geometry on the x-axis so that all of the faces point inward
+				backgeometry.scale( - 1, 1, 1 );
+				const backmaterial = new THREE.MeshBasicMaterial( {
+					map: new THREE.TextureLoader().load( 'textures/starmap_2020_4k.png' )
+				} );
+				const backmesh = new THREE.Mesh( backgeometry, backmaterial );
+				backmesh.rotation.z = 45;
+				scene.add( backmesh );
+				// setUpSkybox();
+
+				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
+				// camera.rotation.y = 45;
+				// scene.add(camera);
+				// camera.position.set(0,0,0);
+				// camera.lookAt(scene.position);
+
+				if (isPhone){
+					controls = new DeviceOrientationControls( camera );
+				}
+
+
+				const light = new THREE.PointLight( 0xffffff, 1);
+				light.position.set( 50, 50, 50 );
+				scene.add( light );
+
+				ohGodWhyDidIHardCodeThis();
+
+				renderer = new THREE.WebGLRenderer();
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				container.appendChild( renderer.domElement );
+
+				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+
+				window.addEventListener( 'resize', onWindowResize, false );
+			}
+
+			function setUpSkybox() {
+				const skyboxImagepaths = ['textures/corona_ft.png',
+					'textures/corona_bk.png',
+					'textures/corona_up.png',
+					'textures/corona_dn.png',
+					'textures/corona_rt.png',
+					'textures/corona_lf.png']
+				const materialArray = skyboxImagepaths.map(image => {
+				    let texture = new THREE.TextureLoader().load(image);
+
+				    return new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide }); // <---
+				});
+				var skyboxGeo = new THREE.BoxGeometry(10000, 10000, 10000);
+				var skybox = new THREE.Mesh(skyboxGeo, materialArray);
+				scene.add(skybox);
+			}
+
+
+			function onWindowResize() {
+
+				windowHalfX = window.innerWidth / 2;
+				windowHalfY = window.innerHeight / 2;
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+			}
+
+
+			function onDocumentMouseMove( event ) {
+
+				event.preventDefault();
+
+				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+			}
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+				
+				if (isPhone){
+			    	// controls.update();
+				} else {
+					const euler = new THREE.Euler(0, 0, 0, 'YXZ');
+				    euler.x = mouse.y*2;
+				    euler.y = -mouse.x*2;
+				    camera.quaternion.setFromEuler(euler);
+
+				    camera.rotation.x = Math.min(Math.max(camera.rotation.x, -1.0472), 1.0472);
+				}
+
+
+				raycaster.setFromCamera( mouse, camera );
+
+				var intersects = raycaster.intersectObjects( planets );
+
+				if ( intersects.length > 0 ) {
+					txt.style.display = "block";
+					txt.innerHTML = intersects[0].object.name;
+				} else {
+
+					txt.style.display = "none";
+
+				}
+
+				renderer.render( scene, camera );
+				// stats.update();
+			}
+
+			function makePlanet(pname, colorhex, x, y) {
+				let geometry = new THREE.SphereGeometry( 10, 32, 16 );
+				let sphere = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: colorhex , emissive: 0x101010} ));
+				sphere.name = pname;
+				sphere.position.set(x,Math.round(Math.random())*20 -20,y);
+				scene.add( sphere );
+				planets.push(sphere);
+			}
+
+			function ohGodWhyDidIHardCodeThis() {
+				makePlanet("NARA", 0x0000ff, 200, -150);
+				makePlanet("SELLONGE", 0xffffff, 20, -50);
+				makePlanet("RIIK", 0xff0000, -200, 100);
+				makePlanet("ANDROS", 0xffff00, -260, 0);
+				makePlanet("TALLUN", 0xff0000, -40, 60);
+				makePlanet("KOVO", 0x00ffff, 220, 100);
+				makePlanet("RHO", 0xffff00, -140, -40);
+			}
+			function getPerms() {
+			    // feature detect
+			    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+			      DeviceOrientationEvent.requestPermission()
+			        .then(permissionState => {
+			          if (permissionState === 'granted') {
+			            window.addEventListener('deviceorientation', () => {});
+			          }
+			        })
+			        .catch(console.error);
+			    } else {
+			      // handle regular non iOS 13+ devices
+			    }
+				const overlay = document.getElementById( 'overlay' );
+				overlay.remove();
+
+				init();
+				animate();
+			  }
+
+		</script>
+	</body>
+</html>
