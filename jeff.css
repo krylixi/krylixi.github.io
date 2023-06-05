@@ -1,72 +1,187 @@
-* {
-}
+/** { border: 1px solid red; }*/
 html,body {
-    overflow-x:hidden;
-  max-width:100%;
-  max-height:100%;
+	overflow-x:hidden;
+/*  max-width:100%;
+  max-height:100%;*/
   overflow-y: scroll;
+	font-family: 'Roboto', sans-serif;
 }
 section {
-  height: 100vh;
-  width: 100vw;
-  scroll-snap-align: start;
-  text-align: center;
-  position: relative;
-  max-width:100%;
-  max-height:100%;
+	height: 100vh;
+	width: 100vw;
+	scroll-snap-align: start;
+	text-align: center;
+	position: relative;
+	max-width:100%;
+	max-height:100%;
 }
 video {
-  width:50vh;
-  height:100vh;
-  max-width:100%;
-  max-height:100%;
-  top:0%;
-  object-fit: cover;
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
 }
 .video-content {
-  height:100%;
-  position: relative;
-  z-index: 1;
+	width:min(100vw, 60vh);
+	height:100vh;
+	position: relative;
+	margin:auto;
+	z-index: 1;
+	background-color: #e0e0e0;
+}
+
+
+.bot-bar {
+	width:min(100vw, 60vh);
+	margin:auto;
+}
+
+.caard {
+	position: relative;
+	top: 20%;
+}
+
+.tok-bot {
+	width:min(100vw, 60vh);
+	left:0;
+	bottom:0;
+	right:0;
+	margin:auto;
+	z-index: 7;
+	position:absolute;
+}
+
+.icon-div {
+	position: absolute;
+	top:50vh;
+	right:max(calc(50vw - 27vh), 0px);
+	z-index: 5;
+
 }
 
 .icon {
-  position: absolute;
-  height:10vh;
-  top:50vh;
-  right:max(calc(50vw - 27vh), 0px);
-  z-index: 5;
+	height:50px;
+	padding: 5px;
+}
+
+.icon:nth-child(2n) {
+	animation-name: keyframes1;
+	animation-iteration-count: infinite;
+	transform-origin: 50% 10%;
+}
+
+.icon:nth-child(2n-1) {
+	animation-name: keyframes2;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+	transform-origin: 30% 5%;
+}
+
+@keyframes keyframes1 {
+	0% {
+		transform: rotate(-1deg);
+		animation-timing-function: ease-in;
+	}
+
+	50% {
+		transform: rotate(1.5deg);
+		animation-timing-function: ease-out;
+	}
+}
+
+@keyframes keyframes2 {
+	0% {
+		transform: rotate(1deg);
+		animation-timing-function: ease-in;
+	}
+
+	50% {
+		transform: rotate(-1.5deg);
+		animation-timing-function: ease-out;
+	}
+}
+
+
+strong { 
+	font-weight: 500;
 }
 
 .desc {
-  text-align: left;
-  position: absolute;
-  bottom:5vh;
-  color: red;
-  width: 40vh;
-  left:calc(50vw - 25vh);
-  font-size: calc(20px);
-  z-index: 5;
-  pointer-events: none;
-  display:block;
+	font-weight: 200;
+	text-shadow: 1px 0px 4px rgba(46,91,173,0.6);
+	text-align: left;
+	position: absolute;
+	bottom:10vh;
+	color: white;
+	width: 40vh;
+	left:calc(50vw - 25vh);
+/*  font-size: calc(20px);*/
+z-index: 5;
+pointer-events: none;
+display:block;
 }
+
+.button {
+	display: block;
+	border-radius: 4px;
+	background-color: #17BDC8;
+	border: none;
+	color: #FFFFFF;
+	text-align: center;
+	font-size: 18px;
+	padding: 10px;
+	width: 200px;
+	transition: all 0.5s;
+	cursor: pointer;
+	margin-top: 16px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.button span {
+	cursor: pointer;
+	display: inline-block;
+	position: relative;
+	transition: 0.5s;
+}
+
+.button span:after {
+	content: '\00bb';
+	position: absolute;
+	opacity: 0;
+	top: 0;
+	right: -20px;
+	transition: 0.5s;
+}
+
+.button:hover span {
+	padding-right: 25px;
+}
+
+.button:hover span:after {
+	opacity: 1;
+	right: 0;
+}
+
 
 .Loop {
-  position: relative;
-  height: 100%;
-  overflow: auto;
-  z-index: 1;
+	position: absolute;
+	top: 0;
+	left:0;
+	height: 100%;
+	overflow: auto;
+	z-index: 1;
 
-  scroll-snap-type: mandatory;
-  scroll-snap-points-y: repeat(100vh);
-  scroll-snap-type: y mandatory;
-  -webkit-overflow-scrolling: touch;
+	scroll-snap-type: mandatory;
+	scroll-snap-points-y: repeat(100vh);
+	scroll-snap-type: y mandatory;
+	-webkit-overflow-scrolling: touch;
 }
 element {
-    -ms-overflow-style: none; /* for Internet Explorer, Edge */
-    scrollbar-width: none; /* for Firefox */
-    overflow-y: scroll; 
+	-ms-overflow-style: none; /* for Internet Explorer, Edge */
+	scrollbar-width: none; /* for Firefox */
+	overflow-y: scroll; 
 }
 
 element::-webkit-scrollbar {
-    display: none; /* for Chrome, Safari, and Opera */
+	display: none; /* for Chrome, Safari, and Opera */
 }
