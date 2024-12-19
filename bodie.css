@@ -1,0 +1,67 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    text-align: center;
+}
+
+
+#youtube-logo {
+    margin-right: 10px; /* Space between logo and the first digit */
+}
+
+#youtube-logo img {
+    height: 80px; /* Match the height of the flip-clock digits */
+    width: auto;  /* Ensure aspect ratio is maintained */
+}
+
+#container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+#flip-clock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    margin: 20px 0;
+}
+
+.flip-clock-digit {
+    width: 60px;
+    height: 80px;
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    border-radius: 5px;
+    position: relative;
+    font-size: 3rem;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.3, 0.3, 0.5, 1);
+}
+
+.flip-clock-digit.flip {
+    transform: rotateX(180deg);
+}
+
+h1 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
