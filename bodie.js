@@ -1,4 +1,4 @@
-const apiKey = 'AIzaSyDTFbAH718bLzW1Tt4SLAn4XUUQXTI8RB4'; // Replace with your YouTube API key
+const apiKey = ''; // Replace with your YouTube API key
 const channelId = 'UCe8x5iUg2640oi_JbnCm7Ng';  // Replace with the YouTube channel ID
 
 const flipClockTens = document.getElementById('flip-clock-tens');
